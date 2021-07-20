@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,600;1,900&display=swap');
+
+.input {
+    margin-right: 3px;
+    font-family: Fira Sans;
+    font-size: inherit;
+    width: 250px;
+    border-radius: 4px;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.btn {
+    font-family: Fira Sans;
+    font-size: inherit;
+    background-color: #c5fdf0;
+    color: #073b77;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    transition: background 250ms, box-shadow 250ms, transform 50ms;
+}
+
+.btn:hover {
+    background: #80ffe1;
+    box-shadow: -1px 1px 5px rgb(133, 133, 133);
+}
+
+.btn:active {
+    outline: none;
+    transform: scale(0.95, 0.95);
+}

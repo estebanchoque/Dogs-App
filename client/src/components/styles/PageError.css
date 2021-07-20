@@ -1,0 +1,34 @@
+.page-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.title-error {
+  font-size: 50px;
+}
+
+.btn-home {
+  align-self: center;
+  width: 100%;
+  font-family: Fira Sans;
+  font-size: 20px;
+  background-color: #c5fdf0;
+  color: #073b77;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: background 250ms, box-shadow 250ms, transform 50ms;
+}
+
+.btn-home:hover {
+  background: #80ffe1;
+  box-shadow: 0px 0px 5px rgb(133, 133, 133);
+}
+
+.btn-home:active {
+  outline: none;
+  transform: scale(0.95, 0.95);
+}
