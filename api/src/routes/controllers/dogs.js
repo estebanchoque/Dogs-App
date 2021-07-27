@@ -1,15 +1,18 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
 const Sequelize = require("sequelize");
-const { API_KEY } = process.env;
 const { Dog, Temperament } = require("../../db");
+const { API_KEY } = process.env;
 const Op = Sequelize.Op;
 
 const getDogs = (req, res, next) => {
   const { name } = req.query;
   if (!Object.keys(req.query).length) {
     const dbResponse = Dog.findAll({
-      include: [Temperament],
+      include: {
+        model: Temperament,
+        as: "temperament",
+      },
     });
     const apiResponse = fetch(
       `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
@@ -25,9 +28,8 @@ const getDogs = (req, res, next) => {
       })
       .catch((err) => next(err));
   } else if (Object.keys(req.query).length === 1 && name) {
-    const validatedName = name.toLowerCase().trim();
     const apiResponse = fetch(
-      `https://api.thedogapi.com/v1/breeds/search?q=${validatedName}&api_key=${API_KEY}`
+      `https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=${API_KEY}`
     )
       .then((response) => response.json())
       .catch((err) => next(err));
@@ -67,13 +69,13 @@ const getDogDetail = (req, res, next) => {
       .then((results) => {
         const [dbResults, apiResults] = results;
         const response = dbResults.concat(apiResults);
-        const search = response.filter((elem) => {
+        const search = response.find((elem) => {
           return String(elem.id) === String(id);
         });
-        if (!search || !search.length) {
+        if (!search) {
           return res.status(400).send("Insert a valid ID");
         }
-        return res.send(search[0]);
+        return res.send(search);
       })
       .catch((err) => next(err));
   }

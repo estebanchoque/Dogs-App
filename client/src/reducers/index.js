@@ -1,10 +1,17 @@
-import { GET_DOGS, SEARCH_DOGS, GET_DOG_DETAIL, GET_TEMPERAMENTS } from "../actions/index";
+import {
+  GET_DOGS,
+  SEARCH_DOGS,
+  GET_DOG_DETAIL,
+  GET_TEMPERAMENTS,
+  CREATE_DOG,
+} from "../actions/index";
 
 const initialState = {
   dogs: [],
   dogsFound: [],
   dogDetail: {},
   temperaments: [],
+  createdDog: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -28,6 +35,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         temperaments: action.payload,
+      };
+    case CREATE_DOG:
+      return {
+        ...state,
+        createdDog: action.payload,
       };
     default:
       return state;

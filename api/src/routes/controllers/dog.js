@@ -2,8 +2,8 @@ const { v4: uuidv4 } = require("uuid");
 const { Dog } = require("../../db");
 
 const addDog = (req, res, next) => {
-  const { name, height, weight, life_span, image, temperaments } = req.body;
-  if (!name || !height || !weight) {
+  const { name, height, weight, life_span, image, temperament } = req.body;
+  if (!name || !height || !weight || !temperament) {
     return res.status(400).send("Form can't be empty");
   }
   return Dog.create({
@@ -15,7 +15,8 @@ const addDog = (req, res, next) => {
     image,
   })
     .then((response) => {
-      response.addTemperament(temperaments);
+      console.log(response)
+      response.addTemperament(temperament);
       return res.send(response);
     })
     .catch((err) => next(err));

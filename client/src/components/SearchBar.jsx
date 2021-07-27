@@ -5,7 +5,6 @@ import * as actions from "../actions/index";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  // const dogs = useSelector((store) => store.dogs);
 
   const [input, setInput] = useState("");
 
@@ -15,7 +14,7 @@ const SearchBar = () => {
     setInput("");
   };
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     setInput(e.target.value);
   };
 
@@ -26,7 +25,7 @@ const SearchBar = () => {
         type="text"
         placeholder="What breed are you looking for?"
         value={input}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
       <input className={s.btn} type="submit" value="Search!" />
     </form>

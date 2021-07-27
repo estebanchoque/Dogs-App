@@ -26,7 +26,7 @@ function App() {
         <Route
           exact
           path="/home/:id"
-          render={({ match }) => <DogDetail match={match.params.id} />}
+          render={({ match }) => <DogDetail id={match.params.id} />}
         />
         <Route path="/create" component={CreateDog} />
         <Route component={PageError} />

@@ -1,37 +1,77 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createDog, getTemperaments } from "../actions/index";
 import NavBar from "./NavBar";
 import "./styles/CreateDog.css";
 
 const CreateDog = () => {
-  const allTemperaments = useSelector((store) => store.temperaments);
+  const dispatch = useDispatch();
 
+  const temperaments = useSelector((store) => store.temperaments);
+
+  useEffect(() => {
+    dispatch(getTemperaments());
+  }, []);
+  console.log(temperaments)
+
+  // Inputs
   const [input, setInput] = useState({
     name: "",
-    temperaments: [],
+    image: "",
+    temperament: [],
   });
-
   const [weight, setWeight] = useState({
     weight_min: "",
     weight_max: "",
   });
-
   const [height, setHeight] = useState({
     height_min: "",
     height_max: "",
   });
-
   const [lifeSpan, setLifeSpan] = useState({
     life_span_min: "",
     life_span_max: "",
   });
 
+  // OnSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // POST Data
+    let postData = {
+      name: input.name,
+      weight: `${weight.weight_min} - ${weight.weight_max}`,
+      height: `${height.height_min} - ${height.height_max}`,
+      life_span: `${lifeSpan.life_span_min} - ${lifeSpan.life_span_max} years`,
+      temperament: input.temperament,
+      image: input.image,
+    };
+
+    dispatch(createDog(postData));
+
+    // Reset inputs
+    setInput({
+      name: "",
+      image: "",
+      temperaments: [],
+    });
+    setWeight({
+      weight_min: "",
+      weight_max: "",
+    });
+    setHeight({
+      height_min: "",
+      height_max: "",
+    });
+    setLifeSpan({
+      life_span_min: "",
+      life_span_max: "",
+    });
   };
 
+  // OnChange
   const handleInputChange = (e) => {
-    if (e.target.name === "temperaments") {
+    if (e.target.name === "temperament") {
       const arr = input[e.target.name];
       setInput({ ...input, [e.target.name]: arr.concat(e.target.value) });
     } else {
@@ -41,17 +81,6 @@ const CreateDog = () => {
       setLifeSpan({ ...lifeSpan, [e.target.name]: e.target.value });
     }
   };
-
-  // Data for POST.
-  let data = {
-    name: input.name,
-    weight: `${weight.weight_min} - ${weight.weight_max} kg.`,
-    height: `${height.height_min} - ${height.height_max}`,
-    life_span: `${lifeSpan.life_span_min} - ${lifeSpan.life_span_max} years`,
-    temperaments: input.temperaments,
-  };
-
-  console.log(data);
 
   return (
     <div>
@@ -63,6 +92,7 @@ const CreateDog = () => {
             <label className="label">Name</label>
             <input
               className="input"
+              required
               type="text"
               autoComplete="off"
               name="name"
@@ -75,6 +105,7 @@ const CreateDog = () => {
             <label className="label">Weight</label>
             <input
               className="input"
+              required
               type="number"
               autoComplete="off"
               name="weight_min"
@@ -84,6 +115,7 @@ const CreateDog = () => {
             />
             <input
               className="input"
+              required
               type="number"
               autoComplete="off"
               name="weight_max"
@@ -96,6 +128,7 @@ const CreateDog = () => {
             <label className="label">Height</label>
             <input
               className="input"
+              required
               type="number"
               autoComplete="off"
               name="height_min"
@@ -105,6 +138,7 @@ const CreateDog = () => {
             />
             <input
               className="input"
+              required
               type="number"
               autoComplete="off"
               name="height_max"
@@ -135,21 +169,32 @@ const CreateDog = () => {
             />
           </div>
           <div className="div-temps">
-            <label className="text-label">Temperaments</label>
+            <label className="label">Temperaments</label>
             <ul className="ul-temps">
-              {allTemperaments.map((elem) => (
+              {temperaments.map((elem) => (
                 <li className="li-temps" key={elem.name}>
                   <input
                     className="input-temps"
                     type="checkbox"
-                    name="temperaments"
-                    value={elem.name}
+                    name="temperament"
+                    value={elem.id}
                     onChange={handleInputChange}
                   />
                   <label name={elem}>{elem.name}</label>
                 </li>
               ))}
             </ul>
+          </div>
+          <div>
+            <label>Image</label>
+            <input
+              type="text"
+              autoComplete="off"
+              placeholder="Insert a image URL"
+              name="image"
+              value={input.image}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="section">
             <input className="btn" type="submit" value="Create!" />

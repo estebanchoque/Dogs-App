@@ -11,7 +11,8 @@ const Cards = ({ dogs }) => {
           id={elem.id}
           name={elem.name}
           temperament={elem.temperament}
-          image={elem.image.url}
+          image={elem.image}
+          reference_image_id={elem.reference_image_id}
         />
       ))}
     </div>
